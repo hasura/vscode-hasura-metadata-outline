@@ -22,24 +22,7 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "package-explorer",
-          "title": "Package Explorer",
-          "icon": "media/dep.svg"
-        }
-      ]
-    },
     "views": {
-      "package-explorer": [
-        {
-          "id": "nodeDependencies",
-          "name": "Node Dependencies",
-          "icon": "media/dep.svg",
-          "contextualTitle": "Package Explorer"
-        }
-      ],
       "explorer": [
         {
           "id": "hasuraOutline",

@@ -143,7 +143,7 @@ export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
       );
       treeItem.command = {
         command: "hasuraOutline.openJsonSelection",
-        title: "",
+        title: "Open Json Selection",
         arguments: [
           new vscode.Range(
             this.editor.document.positionAt(valueNode.offset),

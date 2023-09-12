@@ -43,7 +43,7 @@
       "explorer": [
         {
           "id": "hasuraOutline",
-          "name": "Json Outline",
+          "name": "Hasura Outline",
           "when": "hasuraOutlineEnabled"
         },
         {
@@ -205,7 +205,7 @@
     },
     "configuration": [
       {
-        "title": "JSON Outline",
+        "title": "Hasura Outline",
         "properties": {
           "hasuraOutline.autorefresh": {
             "type": "boolean",

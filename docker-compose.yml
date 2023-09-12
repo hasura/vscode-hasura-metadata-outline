@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  app:
+    image: node:20.6
+    command: sleep infinity
+    volumes:
+      - .:/app
+    working_dir: /app

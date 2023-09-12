@@ -50,14 +50,14 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   const jsonOutlineProvider = new JsonOutlineProvider(context);
-  vscode.window.registerTreeDataProvider("jsonOutline", jsonOutlineProvider);
-  vscode.commands.registerCommand("jsonOutline.refresh", () =>
+  vscode.window.registerTreeDataProvider("hasuraOutline", jsonOutlineProvider);
+  vscode.commands.registerCommand("hasuraOutline.refresh", () =>
     jsonOutlineProvider.refresh()
   );
-  vscode.commands.registerCommand("jsonOutline.refreshNode", (offset) =>
+  vscode.commands.registerCommand("hasuraOutline.refreshNode", (offset) =>
     jsonOutlineProvider.refresh(offset)
   );
-  vscode.commands.registerCommand("jsonOutline.renameNode", (args) => {
+  vscode.commands.registerCommand("hasuraOutline.renameNode", (args) => {
     let offset = undefined;
     if (args.selectedTreeItems && args.selectedTreeItems.length) {
       offset = args.selectedTreeItems[0];

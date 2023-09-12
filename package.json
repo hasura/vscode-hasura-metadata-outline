@@ -42,7 +42,7 @@
       ],
       "explorer": [
         {
-          "id": "jsonOutline",
+          "id": "hasuraOutline",
           "name": "Json Outline",
           "when": "jsonOutlineEnabled"
         },
@@ -106,7 +106,7 @@
         "title": "Reveal in FTP View"
       },
       {
-        "command": "jsonOutline.refresh",
+        "command": "hasuraOutline.refresh",
         "title": "Refresh",
         "icon": {
           "light": "resources/light/refresh.svg",
@@ -114,7 +114,7 @@
         }
       },
       {
-        "command": "jsonOutline.refreshNode",
+        "command": "hasuraOutline.refreshNode",
         "title": "Refresh",
         "icon": {
           "light": "resources/light/refresh.svg",
@@ -122,7 +122,7 @@
         }
       },
       {
-        "command": "jsonOutline.renameNode",
+        "command": "hasuraOutline.renameNode",
         "title": "Rename"
       },
       {
@@ -159,16 +159,16 @@
           "group": "navigation"
         },
         {
-          "command": "jsonOutline.renameNode",
-          "when": "view == jsonOutline"
+          "command": "hasuraOutline.renameNode",
+          "when": "view == hasuraOutline"
         },
         {
           "command": "nodeDependencies.addEntry",
           "when": "view == nodeDependencies"
         },
         {
-          "command": "jsonOutline.refresh",
-          "when": "view == jsonOutline",
+          "command": "hasuraOutline.refresh",
+          "when": "view == hasuraOutline",
           "group": "navigation"
         },
         {
@@ -188,12 +188,12 @@
           "when": "view == nodeDependencies && viewItem == dependency"
         },
         {
-          "command": "jsonOutline.renameNode",
-          "when": "view == jsonOutline"
+          "command": "hasuraOutline.renameNode",
+          "when": "view == hasuraOutline"
         },
         {
-          "command": "jsonOutline.refreshNode",
-          "when": "view == jsonOutline",
+          "command": "hasuraOutline.refreshNode",
+          "when": "view == hasuraOutline",
           "group": "inline"
         },
         {
@@ -207,7 +207,7 @@
       {
         "title": "JSON Outline",
         "properties": {
-          "jsonOutline.autorefresh": {
+          "hasuraOutline.autorefresh": {
             "type": "boolean",
             "default": false
           }

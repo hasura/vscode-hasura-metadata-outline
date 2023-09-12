@@ -44,7 +44,7 @@
         {
           "id": "hasuraOutline",
           "name": "Json Outline",
-          "when": "jsonOutlineEnabled"
+          "when": "hasuraOutlineEnabled"
         },
         {
           "id": "ftpExplorer",

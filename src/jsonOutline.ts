@@ -82,7 +82,7 @@ export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
           vscode.window.activeTextEditor.document.languageId === "jsonc";
         vscode.commands.executeCommand(
           "setContext",
-          "jsonOutlineEnabled",
+          "hasuraOutlineEnabled",
           enabled
         );
         if (enabled) {
@@ -90,7 +90,11 @@ export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
         }
       }
     } else {
-      vscode.commands.executeCommand("setContext", "jsonOutlineEnabled", false);
+      vscode.commands.executeCommand(
+        "setContext",
+        "hasuraOutlineEnabled",
+        false
+      );
     }
   }
 
@@ -174,7 +178,7 @@ export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
           : vscode.TreeItemCollapsibleState.None
       );
       treeItem.command = {
-        command: "extension.openJsonSelection",
+        command: "hasuraOutline.openJsonSelection",
         title: "",
         arguments: [
           new vscode.Range(

@@ -21,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
       offset = args;
     }
     if (offset) {
-      jsonOutlineProvider.rename(offset);
+      // jsonOutlineProvider.rename(offset);
     }
   });
   vscode.commands.registerCommand("hasuraOutline.openJsonSelection", (range) =>

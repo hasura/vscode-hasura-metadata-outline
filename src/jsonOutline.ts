@@ -38,42 +38,6 @@ export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
     }
   }
 
-  rename(offset: number): void {
-    vscode.window
-      .showInputBox({ placeHolder: "Enter the new label" })
-      .then((value) => {
-        const editor = this.editor;
-        const tree = this.tree;
-        if (value !== null && value !== undefined && editor && tree) {
-          editor.edit((editBuilder) => {
-            const path = json.getLocation(this.text, offset).path;
-            let propertyNode: json.Node | undefined = json.findNodeAtLocation(
-              tree,
-              path
-            );
-            if (propertyNode.parent?.type !== "array") {
-              propertyNode = propertyNode.parent?.children
-                ? propertyNode.parent.children[0]
-                : undefined;
-            }
-            if (propertyNode) {
-              const range = new vscode.Range(
-                editor.document.positionAt(propertyNode.offset),
-                editor.document.positionAt(
-                  propertyNode.offset + propertyNode.length
-                )
-              );
-              editBuilder.replace(range, `"${value}"`);
-              setTimeout(() => {
-                this.parseTree();
-                this.refresh(offset);
-              }, 100);
-            }
-          });
-        }
-      });
-  }
-
   private onActiveEditorChanged(): void {
     if (vscode.window.activeTextEditor) {
       if (vscode.window.activeTextEditor.document.uri.scheme === "file") {

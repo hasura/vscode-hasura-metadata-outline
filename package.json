@@ -97,6 +97,7 @@
   },
   "devDependencies": {
     "@types/ftp": "^0.3.33",
+    "@types/lodash": "^4.14.198",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "^16.18.34",
     "@types/rimraf": "^2.0.2",
@@ -107,8 +108,8 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "ftp": "^0.3.10",
     "jsonc-parser": "^0.4.2",
+    "lodash": "^4.17.21",
     "minimist": "^1.2.6",
     "mkdirp": "^0.5.1",
     "rimraf": "^2.6.2"

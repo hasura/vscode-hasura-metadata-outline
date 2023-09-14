@@ -1,13 +1,157 @@
 import * as vscode from "vscode";
 import * as json from "jsonc-parser";
 import * as path from "path";
+import * as _ from "lodash";
 
-export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
-  private _onDidChangeTreeData: vscode.EventEmitter<number | undefined> =
-    new vscode.EventEmitter<number | undefined>();
-  readonly onDidChangeTreeData: vscode.Event<number | undefined> =
+const KNOWN_KINDS = [
+  "AuthConfig",
+  "HasuraHubDataSource",
+  "DataConnectorScalarRepresentation",
+
+  "Model",
+  "ModelSelectPermissions",
+
+  "ObjectType",
+  "ScalarType",
+  "TypeOutputPermissions",
+
+  "Relationship",
+];
+
+const SIMPLE_KIND_MAPS: Record<string, string[]> = {
+  "KIND:HasuraHubDataSource": ["name"],
+  "KIND:Model": ["name"],
+  "KIND:ModelSelectPermissions": ["modelName"],
+  "KIND:ObjectType": ["name"],
+  "KIND:ScalarType": ["name"],
+  "KIND:TypeOutputPermissions": ["typeName"],
+  SCALAR_REPRESENTATION: ["scalarType"],
+};
+
+const __HACK_KIND_DOCUMENT_POSITION = "__HACK_KIND_DOCUMENT_POSITION";
+
+class KindTree extends vscode.TreeItem {
+  children: KindTree[] = [];
+  command: any;
+
+  static createRoot(j: any): KindTree {
+    const n = new KindTree(
+      "ROOT_KIND_TREE",
+      "ROOT",
+      undefined,
+      vscode.TreeItemCollapsibleState.Expanded,
+      undefined
+    );
+    n.buildJson(j);
+    return n;
+  }
+
+  buildJson(j: any) {
+    if (this.tag == "ROOT") {
+      const m = j?.metadata;
+      if (!m) return;
+
+      _.forEach(m, (mm, i) => {
+        mm[__HACK_KIND_DOCUMENT_POSITION] = i;
+      });
+
+      const groupKinds = _.groupBy(m, "kind");
+      const kinds = _.intersection(
+        _.union(KNOWN_KINDS, _.keys(groupKinds)),
+        _.keys(groupKinds)
+      );
+
+      for (const k of kinds) {
+        const n = new KindTree(
+          k,
+          "KIND:" + k,
+          KNOWN_KINDS.includes(k) ? undefined : "Unknown Kind",
+          vscode.TreeItemCollapsibleState.Collapsed,
+          undefined
+        );
+        n.buildJson(groupKinds[k]);
+
+        this.children.push(n);
+      }
+    } else if (this.tag == "KIND:DataConnectorScalarRepresentation") {
+      const groupKinds = _.groupBy(j, "dataSource");
+      this.children = _.keys(groupKinds)
+        .sort()
+        .map((g) => {
+          const n = new KindTree(
+            g,
+            "SCALAR_REPRESENTATION",
+            "Data Source",
+            vscode.TreeItemCollapsibleState.Collapsed,
+            undefined
+          );
+          n.buildJson(groupKinds[g]);
+          return n;
+        });
+    } else if (this.tag == "KIND:AuthConfig") {
+      this.children = _.sortBy(j, "name").map((jj) => {
+        const description = jj.webhook
+          ? `Webhook: ${jj.webhook.webhookUrl}`
+          : "jwt";
+        return new KindTree(
+          "AuthConfig",
+          "leaf",
+          description,
+          vscode.TreeItemCollapsibleState.None,
+          jj[__HACK_KIND_DOCUMENT_POSITION]
+        );
+      });
+    } else if (this.tag == "KIND:Relationship") {
+      const cs = j.map((jj: any) => {
+        return new KindTree(
+          `${jj.source}.${jj.name}`,
+          "leaf",
+          `-> ${jj.target.modelName} ${
+            jj.target.relationshipType == "Array" ? "[]" : "{}"
+          }`,
+          vscode.TreeItemCollapsibleState.None,
+          jj[__HACK_KIND_DOCUMENT_POSITION]
+        );
+      });
+      this.children = _.sortBy(cs, "label");
+    } else if (_.keys(SIMPLE_KIND_MAPS).includes(this.tag)) {
+      const labelProp = SIMPLE_KIND_MAPS[this.tag][0];
+      this.children = _.sortBy(j, labelProp).map((jj: any) => {
+        return new KindTree(
+          jj[labelProp],
+          "leaf",
+          undefined,
+          vscode.TreeItemCollapsibleState.None,
+          jj[__HACK_KIND_DOCUMENT_POSITION]
+        );
+      });
+    }
+  }
+
+  constructor(
+    public readonly label: string,
+    public readonly tag: string,
+    public readonly description: string | undefined,
+    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
+    public readonly documentPositon: number | undefined
+  ) {
+    super(label, collapsibleState);
+    if (this.documentPositon)
+      this.command = {
+        command: "hasuraOutline.openJsonSelection",
+        title: "",
+        arguments: [this.documentPositon],
+      };
+  }
+}
+
+export class JsonOutlineProvider implements vscode.TreeDataProvider<KindTree> {
+  private _onDidChangeTreeData: vscode.EventEmitter<KindTree | undefined> =
+    new vscode.EventEmitter<KindTree | undefined>();
+  readonly onDidChangeTreeData: vscode.Event<KindTree | undefined> =
     this._onDidChangeTreeData.event;
 
+  private hasuraTree: KindTree | undefined = undefined;
   private tree: json.Node | undefined;
   private text = "";
   private editor: vscode.TextEditor | undefined;
@@ -20,19 +164,19 @@ export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
     vscode.workspace.onDidChangeTextDocument((e) => this.onDocumentChanged(e));
     this.autoRefresh = vscode.workspace
       .getConfiguration("hasuraOutline")
-      .get("autorefresh", false);
+      .get("autorefresh", true);
     vscode.workspace.onDidChangeConfiguration(() => {
       this.autoRefresh = vscode.workspace
         .getConfiguration("hasuraOutline")
-        .get("autorefresh", false);
+        .get("autorefresh", true);
     });
     this.onActiveEditorChanged();
   }
 
-  refresh(offset?: number): void {
+  refresh(node?: KindTree): void {
     this.parseTree();
-    if (offset) {
-      this._onDidChangeTreeData.fire(offset);
+    if (node) {
+      this._onDidChangeTreeData.fire(node);
     } else {
       this._onDidChangeTreeData.fire(undefined);
     }
@@ -69,18 +213,8 @@ export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
       changeEvent.document.uri.toString() ===
         this.editor?.document.uri.toString()
     ) {
-      for (const change of changeEvent.contentChanges) {
-        const path = json.getLocation(
-          this.text,
-          this.editor.document.offsetAt(change.range.start)
-        ).path;
-        path.pop();
-        const node = path.length
-          ? json.findNodeAtLocation(this.tree, path)
-          : void 0;
-        this.parseTree();
-        this._onDidChangeTreeData.fire(node ? node.offset : void 0);
-      }
+      this.parseTree();
+      this._onDidChangeTreeData.fire(undefined);
     }
   }
 
@@ -91,36 +225,17 @@ export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
     if (this.editor && this.editor.document) {
       this.text = this.editor.document.getText();
       this.tree = json.parseTree(this.text);
+      this.hasuraTree = KindTree.createRoot(json.parse(this.text));
     }
   }
 
-  getChildren(offset?: number): Thenable<number[]> {
-    if (offset && this.tree) {
-      const path = json.getLocation(this.text, offset).path;
-      const node = json.findNodeAtLocation(this.tree, path);
-      return Promise.resolve(this.getChildrenOffsets(node));
-    } else {
-      return Promise.resolve(
-        this.tree ? this.getChildrenOffsets(this.tree) : []
-      );
-    }
+  getChildren(node?: KindTree): Thenable<KindTree[]> {
+    return Promise.resolve(
+      node ? node.children : this.hasuraTree?.children || []
+    );
   }
 
-  private getChildrenOffsets(node: json.Node): number[] {
-    const offsets: number[] = [];
-    if (node.children && this.tree) {
-      for (const child of node.children) {
-        const childPath = json.getLocation(this.text, child.offset).path;
-        const childNode = json.findNodeAtLocation(this.tree, childPath);
-        if (childNode) {
-          offsets.push(childNode.offset);
-        }
-      }
-    }
-    return offsets;
-  }
-
-  getTreeItem(offset: number): vscode.TreeItem {
+  getTreeItem(node: KindTree): vscode.TreeItem {
     if (!this.tree) {
       throw new Error("Invalid tree");
     }
@@ -128,39 +243,23 @@ export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
       throw new Error("Invalid editor");
     }
 
-    const path = json.getLocation(this.text, offset).path;
-    const valueNode = json.findNodeAtLocation(this.tree, path);
-    if (valueNode) {
-      const hasChildren =
-        valueNode.type === "object" || valueNode.type === "array";
-      const treeItem: vscode.TreeItem = new vscode.TreeItem(
-        this.getLabel(valueNode),
-        hasChildren
-          ? valueNode.type === "object"
-            ? vscode.TreeItemCollapsibleState.Expanded
-            : vscode.TreeItemCollapsibleState.Collapsed
-          : vscode.TreeItemCollapsibleState.None
-      );
-      treeItem.command = {
-        command: "hasuraOutline.openJsonSelection",
-        title: "Open Json Selection",
-        arguments: [
-          new vscode.Range(
-            this.editor.document.positionAt(valueNode.offset),
-            this.editor.document.positionAt(valueNode.offset + valueNode.length)
-          ),
-        ],
-      };
-      treeItem.iconPath = this.getIcon(valueNode);
-      treeItem.contextValue = valueNode.type;
-      return treeItem;
-    }
-    throw new Error(`Could not find json node at ${path}`);
+    return node;
   }
 
-  select(range: vscode.Range) {
-    if (this.editor) {
-      this.editor.selection = new vscode.Selection(range.start, range.end);
+  select(kindDocumentPosition: number) {
+    if (this.editor && this.tree) {
+      const valueNode = json.findNodeAtLocation(this.tree, [
+        "metadata",
+        kindDocumentPosition,
+      ]);
+      if (valueNode) {
+        const range = new vscode.Range(
+          this.editor.document.positionAt(valueNode.offset),
+          this.editor.document.positionAt(valueNode.offset + valueNode.length)
+        );
+        this.editor.selection = new vscode.Selection(range.start, range.end);
+        this.editor.revealRange(range, vscode.TextEditorRevealType.InCenter);
+      }
     }
   }
 
@@ -231,3 +330,83 @@ export class JsonOutlineProvider implements vscode.TreeDataProvider<number> {
     }
   }
 }
+
+/*
+
+"kind": "AuthConfig",
+
+
+"kind": "HasuraHubDataSource",
+"name": "onedb"
+
+
+"kind": "DataConnectorScalarRepresentation",
+"dataSource": "onedb",
+"scalarType": "any"
+
+
+"kind": "Model",
+"name": "posts",
+...
+"dataType": "posts",
+
+
+"kind": "ModelSelectPermissions",
+"modelName": "posts",
+
+
+"kind": "ObjectType",
+"name": "posts"
+
+
+"kind": "ScalarType",
+"name": "any"
+
+
+"kind": "TypeOutputPermissions",
+"typeName": "posts"
+
+
+"kind": "Relationship",
+"name": "user",
+...
+"source": "posts",
+"target": {
+  "modelName": "users",
+  "relationshipType": "Object"
+}
+
+*/
+
+/*
+
+KINDS
+
+  AuthConfig
+
+  HasuraHubDataSource
+    onedb (name)
+
+  DataConnectorScalarRepresentation
+    onedb (dataSource)
+      any (scalarType)
+
+  Model
+    posts (name)
+
+  ModelSelectPermissions
+    posts (modelName)
+
+  ObjectType
+    posts (name)
+
+  ScalarType
+    any (name)
+
+  TypeOutputPermissions
+    posts (typeName)
+
+  Relationship
+    posts.user [posts -> users []] (source.name [source -> target []|{}])
+
+*/

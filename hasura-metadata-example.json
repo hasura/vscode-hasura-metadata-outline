@@ -1,0 +1,1018 @@
+{
+  "metadata": [
+    {
+      "allowRoleEmulationFor": "admin",
+      "kind": "AuthConfig",
+      "webhook": {
+        "mode": "POST",
+        "webhookUrl": "https://auth.pro.hasura.io/webhook/ddn?role=admin"
+      }
+    },
+    {
+      "connectorConfiguration": {
+        "aggregate_functions": {
+          "bigint": {
+            "bit_and": {
+              "return_type": "bigint"
+            },
+            "bit_or": {
+              "return_type": "bigint"
+            },
+            "bit_xor": {
+              "return_type": "bigint"
+            },
+            "count": {
+              "return_type": "bigint"
+            },
+            "dense_rank": {
+              "return_type": "bigint"
+            },
+            "max": {
+              "return_type": "bigint"
+            },
+            "min": {
+              "return_type": "bigint"
+            },
+            "rank": {
+              "return_type": "bigint"
+            },
+            "sum": {
+              "return_type": "bigint"
+            }
+          },
+          "boolean": {
+            "bool_and": {
+              "return_type": "boolean"
+            },
+            "bool_or": {
+              "return_type": "boolean"
+            },
+            "every": {
+              "return_type": "boolean"
+            }
+          },
+          "character": {
+            "max": {
+              "return_type": "character"
+            },
+            "min": {
+              "return_type": "character"
+            }
+          },
+          "date": {
+            "max": {
+              "return_type": "date"
+            },
+            "min": {
+              "return_type": "date"
+            }
+          },
+          "double precision": {
+            "avg": {
+              "return_type": "double precision"
+            },
+            "cume_dist": {
+              "return_type": "double precision"
+            },
+            "max": {
+              "return_type": "double precision"
+            },
+            "min": {
+              "return_type": "double precision"
+            },
+            "percent_rank": {
+              "return_type": "double precision"
+            },
+            "stddev": {
+              "return_type": "double precision"
+            },
+            "stddev_pop": {
+              "return_type": "double precision"
+            },
+            "stddev_samp": {
+              "return_type": "double precision"
+            },
+            "sum": {
+              "return_type": "double precision"
+            },
+            "var_pop": {
+              "return_type": "double precision"
+            },
+            "var_samp": {
+              "return_type": "double precision"
+            },
+            "variance": {
+              "return_type": "double precision"
+            }
+          },
+          "integer": {
+            "bit_and": {
+              "return_type": "integer"
+            },
+            "bit_or": {
+              "return_type": "integer"
+            },
+            "bit_xor": {
+              "return_type": "integer"
+            },
+            "max": {
+              "return_type": "integer"
+            },
+            "min": {
+              "return_type": "integer"
+            },
+            "ntile": {
+              "return_type": "integer"
+            }
+          },
+          "json": {
+            "json_agg": {
+              "return_type": "json"
+            }
+          },
+          "jsonb": {
+            "jsonb_agg": {
+              "return_type": "jsonb"
+            }
+          },
+          "numeric": {
+            "avg": {
+              "return_type": "numeric"
+            },
+            "max": {
+              "return_type": "numeric"
+            },
+            "min": {
+              "return_type": "numeric"
+            },
+            "stddev": {
+              "return_type": "numeric"
+            },
+            "stddev_pop": {
+              "return_type": "numeric"
+            },
+            "stddev_samp": {
+              "return_type": "numeric"
+            },
+            "sum": {
+              "return_type": "numeric"
+            },
+            "var_pop": {
+              "return_type": "numeric"
+            },
+            "var_samp": {
+              "return_type": "numeric"
+            },
+            "variance": {
+              "return_type": "numeric"
+            }
+          },
+          "real": {
+            "max": {
+              "return_type": "real"
+            },
+            "min": {
+              "return_type": "real"
+            },
+            "sum": {
+              "return_type": "real"
+            }
+          },
+          "smallint": {
+            "bit_and": {
+              "return_type": "smallint"
+            },
+            "bit_or": {
+              "return_type": "smallint"
+            },
+            "bit_xor": {
+              "return_type": "smallint"
+            },
+            "max": {
+              "return_type": "smallint"
+            },
+            "min": {
+              "return_type": "smallint"
+            }
+          },
+          "text": {
+            "max": {
+              "return_type": "text"
+            },
+            "min": {
+              "return_type": "text"
+            }
+          },
+          "time with time zone": {
+            "max": {
+              "return_type": "time with time zone"
+            },
+            "min": {
+              "return_type": "time with time zone"
+            }
+          },
+          "time without time zone": {
+            "max": {
+              "return_type": "time without time zone"
+            },
+            "min": {
+              "return_type": "time without time zone"
+            }
+          },
+          "timestamp with time zone": {
+            "max": {
+              "return_type": "timestamp with time zone"
+            },
+            "min": {
+              "return_type": "timestamp with time zone"
+            }
+          },
+          "timestamp without time zone": {
+            "max": {
+              "return_type": "timestamp without time zone"
+            },
+            "min": {
+              "return_type": "timestamp without time zone"
+            }
+          }
+        },
+        "metadata": {
+          "native_queries": {},
+          "tables": {
+            "foo": {
+              "columns": {
+                "fooname": {
+                  "name": "fooname",
+                  "type": "text"
+                }
+              },
+              "foreign_relations": {},
+              "schema_name": "public",
+              "table_name": "foo",
+              "uniqueness_constraints": {}
+            },
+            "labels": {
+              "columns": {
+                "id": {
+                  "name": "id",
+                  "type": "integer"
+                },
+                "name": {
+                  "name": "name",
+                  "type": "text"
+                },
+                "post_id": {
+                  "name": "post_id",
+                  "type": "integer"
+                }
+              },
+              "foreign_relations": {
+                "labels_post_id_fkey": {
+                  "column_mapping": {
+                    "post_id": "id"
+                  },
+                  "foreign_table": "posts"
+                }
+              },
+              "schema_name": "public",
+              "table_name": "labels",
+              "uniqueness_constraints": {
+                "labels_pkey": ["id"]
+              }
+            },
+            "posts": {
+              "columns": {
+                "body": {
+                  "name": "body",
+                  "type": "text"
+                },
+                "id": {
+                  "name": "id",
+                  "type": "integer"
+                },
+                "user_id": {
+                  "name": "user_id",
+                  "type": "integer"
+                }
+              },
+              "foreign_relations": {
+                "posts_user_id_fkey": {
+                  "column_mapping": {
+                    "user_id": "id"
+                  },
+                  "foreign_table": "users"
+                }
+              },
+              "schema_name": "public",
+              "table_name": "posts",
+              "uniqueness_constraints": {
+                "posts_pkey": ["id"]
+              }
+            },
+            "users": {
+              "columns": {
+                "id": {
+                  "name": "id",
+                  "type": "integer"
+                },
+                "name": {
+                  "name": "name",
+                  "type": "text"
+                }
+              },
+              "foreign_relations": {},
+              "schema_name": "public",
+              "table_name": "users",
+              "uniqueness_constraints": {
+                "users_pkey": ["id"]
+              }
+            }
+          }
+        },
+        "postgres_database_url": "postgres://akshaya.acharya:I9icJb3qEjgl@ep-old-leaf-792655.us-west-2.aws.neon.tech/native-boa-74_db",
+        "version": 1
+      },
+      "connectorId": "hasura/postgres",
+      "kind": "HasuraHubDataSource",
+      "name": "onedb"
+    },
+    {
+      "graphql": {
+        "typeName": "any"
+      },
+      "kind": "ScalarType",
+      "name": "any"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "any_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "any",
+      "scalarType": "any"
+    },
+    {
+      "graphql": {
+        "typeName": "bigint"
+      },
+      "kind": "ScalarType",
+      "name": "bigint"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "bigint_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "bigint",
+      "scalarType": "bigint"
+    },
+    {
+      "graphql": {
+        "typeName": "boolean"
+      },
+      "kind": "ScalarType",
+      "name": "boolean"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "boolean_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "boolean",
+      "scalarType": "boolean"
+    },
+    {
+      "graphql": {
+        "typeName": "character"
+      },
+      "kind": "ScalarType",
+      "name": "character"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "character_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "character",
+      "scalarType": "character"
+    },
+    {
+      "graphql": {
+        "typeName": "character_varying"
+      },
+      "kind": "ScalarType",
+      "name": "character_varying"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "character_varying_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "character_varying",
+      "scalarType": "character varying"
+    },
+    {
+      "graphql": {
+        "typeName": "date"
+      },
+      "kind": "ScalarType",
+      "name": "date"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "date_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "date",
+      "scalarType": "date"
+    },
+    {
+      "graphql": {
+        "typeName": "double_precision"
+      },
+      "kind": "ScalarType",
+      "name": "double_precision"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "double_precision_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "double_precision",
+      "scalarType": "double precision"
+    },
+    {
+      "graphql": {
+        "typeName": "integer"
+      },
+      "kind": "ScalarType",
+      "name": "integer"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "integer_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "integer",
+      "scalarType": "integer"
+    },
+    {
+      "graphql": {
+        "typeName": "json"
+      },
+      "kind": "ScalarType",
+      "name": "json"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "json_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "json",
+      "scalarType": "json"
+    },
+    {
+      "graphql": {
+        "typeName": "jsonb"
+      },
+      "kind": "ScalarType",
+      "name": "jsonb"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "jsonb_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "jsonb",
+      "scalarType": "jsonb"
+    },
+    {
+      "graphql": {
+        "typeName": "numeric"
+      },
+      "kind": "ScalarType",
+      "name": "numeric"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "numeric_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "numeric",
+      "scalarType": "numeric"
+    },
+    {
+      "graphql": {
+        "typeName": "real"
+      },
+      "kind": "ScalarType",
+      "name": "real"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "real_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "real",
+      "scalarType": "real"
+    },
+    {
+      "graphql": {
+        "typeName": "smallint"
+      },
+      "kind": "ScalarType",
+      "name": "smallint"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "smallint_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "smallint",
+      "scalarType": "smallint"
+    },
+    {
+      "graphql": {
+        "typeName": "text"
+      },
+      "kind": "ScalarType",
+      "name": "text"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "text_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "text",
+      "scalarType": "text"
+    },
+    {
+      "graphql": {
+        "typeName": "time_with_time_zone"
+      },
+      "kind": "ScalarType",
+      "name": "time_with_time_zone"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "time_with_time_zone_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "time_with_time_zone",
+      "scalarType": "time with time zone"
+    },
+    {
+      "graphql": {
+        "typeName": "time_without_time_zone"
+      },
+      "kind": "ScalarType",
+      "name": "time_without_time_zone"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "time_without_time_zone_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "time_without_time_zone",
+      "scalarType": "time without time zone"
+    },
+    {
+      "graphql": {
+        "typeName": "timestamp_with_time_zone"
+      },
+      "kind": "ScalarType",
+      "name": "timestamp_with_time_zone"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "timestamp_with_time_zone_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "timestamp_with_time_zone",
+      "scalarType": "timestamp with time zone"
+    },
+    {
+      "graphql": {
+        "typeName": "timestamp_without_time_zone"
+      },
+      "kind": "ScalarType",
+      "name": "timestamp_without_time_zone"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "timestamp_without_time_zone_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "timestamp_without_time_zone",
+      "scalarType": "timestamp without time zone"
+    },
+    {
+      "graphql": {
+        "typeName": "uuid"
+      },
+      "kind": "ScalarType",
+      "name": "uuid"
+    },
+    {
+      "dataSource": "onedb",
+      "graphql": {
+        "comparisonExpressionTypeName": "uuid_comparison"
+      },
+      "kind": "DataConnectorScalarRepresentation",
+      "representation": "uuid",
+      "scalarType": "uuid"
+    },
+    {
+      "fields": [
+        {
+          "name": "fooname",
+          "type": "text"
+        }
+      ],
+      "graphql": {
+        "typeName": "foo"
+      },
+      "kind": "ObjectType",
+      "name": "foo"
+    },
+    {
+      "dataType": "foo",
+      "graphql": {
+        "selectMany": {
+          "queryRootField": "foo"
+        },
+        "selectUniques": []
+      },
+      "kind": "Model",
+      "name": "foo",
+      "source": {
+        "collection": "foo",
+        "dataSource": "onedb",
+        "typeMappings": {
+          "foo": {
+            "fieldMappings": {
+              "fooname": {
+                "column": "fooname"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "TypeOutputPermissions",
+      "permissions": {
+        "admin": {
+          "fields": ["fooname"]
+        }
+      },
+      "typeName": "foo"
+    },
+    {
+      "kind": "ModelSelectPermissions",
+      "modelName": "foo",
+      "permissions": {
+        "admin": {}
+      }
+    },
+    {
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer"
+        },
+        {
+          "name": "name",
+          "type": "text"
+        },
+        {
+          "name": "post_id",
+          "type": "integer"
+        }
+      ],
+      "graphql": {
+        "typeName": "labels"
+      },
+      "kind": "ObjectType",
+      "name": "labels"
+    },
+    {
+      "dataType": "labels",
+      "graphql": {
+        "selectMany": {
+          "queryRootField": "labels"
+        },
+        "selectUniques": [
+          {
+            "queryRootField": "labels_pkey",
+            "uniqueIdentifier": ["id"]
+          }
+        ]
+      },
+      "kind": "Model",
+      "name": "labels",
+      "source": {
+        "collection": "labels",
+        "dataSource": "onedb",
+        "typeMappings": {
+          "labels": {
+            "fieldMappings": {
+              "id": {
+                "column": "id"
+              },
+              "name": {
+                "column": "name"
+              },
+              "post_id": {
+                "column": "post_id"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "TypeOutputPermissions",
+      "permissions": {
+        "admin": {
+          "fields": ["id", "name", "post_id"]
+        }
+      },
+      "typeName": "labels"
+    },
+    {
+      "kind": "ModelSelectPermissions",
+      "modelName": "labels",
+      "permissions": {
+        "admin": {}
+      }
+    },
+    {
+      "fields": [
+        {
+          "name": "body",
+          "type": "text"
+        },
+        {
+          "name": "id",
+          "type": "integer"
+        },
+        {
+          "name": "user_id",
+          "type": "integer"
+        }
+      ],
+      "graphql": {
+        "typeName": "posts"
+      },
+      "kind": "ObjectType",
+      "name": "posts"
+    },
+    {
+      "dataType": "posts",
+      "graphql": {
+        "selectMany": {
+          "queryRootField": "posts"
+        },
+        "selectUniques": [
+          {
+            "queryRootField": "posts_pkey",
+            "uniqueIdentifier": ["id"]
+          }
+        ]
+      },
+      "kind": "Model",
+      "name": "posts",
+      "source": {
+        "collection": "posts",
+        "dataSource": "onedb",
+        "typeMappings": {
+          "posts": {
+            "fieldMappings": {
+              "body": {
+                "column": "body"
+              },
+              "id": {
+                "column": "id"
+              },
+              "user_id": {
+                "column": "user_id"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "TypeOutputPermissions",
+      "permissions": {
+        "admin": {
+          "fields": ["body", "id", "user_id"]
+        }
+      },
+      "typeName": "posts"
+    },
+    {
+      "kind": "ModelSelectPermissions",
+      "modelName": "posts",
+      "permissions": {
+        "admin": {}
+      }
+    },
+    {
+      "fields": [
+        {
+          "name": "id",
+          "type": "integer"
+        },
+        {
+          "name": "name",
+          "type": "text"
+        }
+      ],
+      "graphql": {
+        "typeName": "users"
+      },
+      "kind": "ObjectType",
+      "name": "users"
+    },
+    {
+      "dataType": "users",
+      "graphql": {
+        "selectMany": {
+          "queryRootField": "users"
+        },
+        "selectUniques": [
+          {
+            "queryRootField": "users_pkey",
+            "uniqueIdentifier": ["id"]
+          }
+        ]
+      },
+      "kind": "Model",
+      "name": "users",
+      "source": {
+        "collection": "users",
+        "dataSource": "onedb",
+        "typeMappings": {
+          "users": {
+            "fieldMappings": {
+              "id": {
+                "column": "id"
+              },
+              "name": {
+                "column": "name"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "kind": "TypeOutputPermissions",
+      "permissions": {
+        "admin": {
+          "fields": ["id", "name"]
+        }
+      },
+      "typeName": "users"
+    },
+    {
+      "kind": "ModelSelectPermissions",
+      "modelName": "users",
+      "permissions": {
+        "admin": {}
+      }
+    },
+    {
+      "kind": "Relationship",
+      "mappings": [
+        {
+          "source": {
+            "fieldPath": [
+              {
+                "fieldName": "post_id"
+              }
+            ]
+          },
+          "target": {
+            "modelField": [
+              {
+                "fieldName": "id"
+              }
+            ]
+          }
+        }
+      ],
+      "name": "post",
+      "source": "labels",
+      "target": {
+        "modelName": "posts",
+        "relationshipType": "Object"
+      }
+    },
+    {
+      "kind": "Relationship",
+      "mappings": [
+        {
+          "source": {
+            "fieldPath": [
+              {
+                "fieldName": "id"
+              }
+            ]
+          },
+          "target": {
+            "modelField": [
+              {
+                "fieldName": "post_id"
+              }
+            ]
+          }
+        }
+      ],
+      "name": "labels",
+      "source": "posts",
+      "target": {
+        "modelName": "labels",
+        "relationshipType": "Array"
+      }
+    },
+    {
+      "kind": "Relationship",
+      "mappings": [
+        {
+          "source": {
+            "fieldPath": [
+              {
+                "fieldName": "user_id"
+              }
+            ]
+          },
+          "target": {
+            "modelField": [
+              {
+                "fieldName": "id"
+              }
+            ]
+          }
+        }
+      ],
+      "name": "user",
+      "source": "posts",
+      "target": {
+        "modelName": "users",
+        "relationshipType": "Object"
+      }
+    },
+    {
+      "kind": "Relationship",
+      "mappings": [
+        {
+          "source": {
+            "fieldPath": [
+              {
+                "fieldName": "id"
+              }
+            ]
+          },
+          "target": {
+            "modelField": [
+              {
+                "fieldName": "user_id"
+              }
+            ]
+          }
+        }
+      ],
+      "name": "posts",
+      "source": "users",
+      "target": {
+        "modelName": "posts",
+        "relationshipType": "Array"
+      }
+    }
+  ],
+  "data_connectors": {
+    "postgres": "http://postgres.ndc-agents:4000/deployment/"
+  },
+  "validate_connectors": false
+}
